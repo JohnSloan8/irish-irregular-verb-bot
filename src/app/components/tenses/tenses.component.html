@@ -1,0 +1,12 @@
+<div class="choices-div">
+  <h2 class="small-title">Aimsir a roghnú</h2>
+  <div class="button-row" *ngFor="let a of tenses">
+    <button 
+      mat-raised-button 
+      color="primary"
+      (click)="chooseTense(a)"
+      >
+      {{ a }}
+    </button>
+  </div>
+</div>

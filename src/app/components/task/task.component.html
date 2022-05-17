@@ -1,0 +1,12 @@
+<div class="choices-div">
+  <h2 class="small-title">Tasc a roghnú</h2>
+  <div class="button-row" *ngFor="let t of taskTypes">
+    <button 
+      mat-raised-button 
+      color="primary"
+      (click)="chooseTask(t)"
+      >
+      {{ t }}
+    </button>
+  </div>
+</div>

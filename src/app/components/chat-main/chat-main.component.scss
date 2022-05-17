@@ -1,0 +1,15 @@
+app-keyboard {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+
+.chat-window {
+	position: absolute;
+	background: url('/assets/chat-background-1.jpg');
+	top: 56px;
+	left: 0px;
+	right: 0px;
+	bottom: 225px;
+	overflow-y: scroll;
+}

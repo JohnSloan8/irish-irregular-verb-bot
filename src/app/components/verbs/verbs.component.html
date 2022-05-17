@@ -1,0 +1,12 @@
+<div class="choices-div">
+  <h2 class="small-title">Briathar a roghnú</h2>
+  <div class="button-row" *ngFor="let v of irrVerbs">
+    <button 
+      mat-raised-button 
+      color="primary"
+      (click)="chooseVerb(v)"
+      >
+      {{ v }}
+    </button>
+  </div>
+</div>

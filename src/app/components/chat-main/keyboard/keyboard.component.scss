@@ -1,0 +1,31 @@
+@import 'simple-keyboard/build/css/index.css';
+
+ul {
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  height: 30px;
+  padding: 20px;
+  font-size: 20px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.fadas {
+  background-color: lightgreen !important;
+}
+
+.urús {
+  background-color: khaki !important;
+}
+
+.séimhiús {
+  background-color: lightskyblue !important;
+}
+
+
+.blank {
+  visibility: hidden !important;
+}

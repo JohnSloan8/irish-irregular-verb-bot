@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+.button-row {
+
+	position: relative;
+	width: 100%;
+	margin-bottom: 15px;
+	display: flex;
+	align: center;
+	justify-content: center;
+
+	button {
+		width: 50%;
+	}
+
+}
+
+.small-title {
+	text-align: center;
+}
+
+.choices-div {
+	margin-top: 30px;
+}
