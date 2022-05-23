@@ -20,7 +20,6 @@ export class KeyboardComponent implements OnInit {
   constructor(private messageService:MessageService){}
 
   value = "";
-  shifted: boolean = false;
   keyboard: Keyboard;
 
   ngAfterViewInit() {
@@ -29,42 +28,44 @@ export class KeyboardComponent implements OnInit {
       display: keyboardOptions.display,
       buttonTheme: keyboardOptions.button,
       maxLength: 35,
-      onChange: input => this.onChange(input.toLowerCase()),
+      onChange: input => this.onChange(input),
       onKeyPress: (button: string) => this.onKeyPress(button)
     });
   }
 
   onChange = (input: string) => {
-    if (!this.shifted) {
-      this.value = input;
-      console.log("Input changed", input);
-    }
+    this.value = input;
+    this.keyboard.setInput(input);
   };
 
   onKeyPress = (button: string) => {
-    console.log("Button pressed", button);
     if (button === "{fada}" || button === "{urú}" || button === "{séimhiú}" ) { 
       this.handleShift(button);
     } else if (button === "{enter}") {
-      console.log('clicked cuir')
       this.addMessage()
-    }
+    } else {
+      setTimeout(()=>{this.handleShift('{úru}')}, 10)
+      //this.keyboard.onKeyPress = null
+    } 
   }
 
   addMessage = () => {
     console.log('msg:', this.value)
     const msg = {
       text: this.value,
-      user_id: '1',
-      chat_id: '1'
+      user_id: '627e4a9f6fa530de58310a6d',
+      chat_id: '627e4e836fa530de58310a81'
     }
-    console.log('newMessage:', msg)
+    //console.log('newMessage:', msg)
+    this.value = "";
+    this.keyboard.setInput(""); // need to delete this too to clear everything.
     this.onAddMessage.emit(msg)
   }
 
-  onInputChange = (event: any) => {
-    this.keyboard.setInput(event.target.value);
-  };
+  //onInputChange = (event: any) => {
+    //console.log('event:', event)
+    //this.keyboard.setInput(event.target.value);
+  //};
 
   handleShift = (button: string) => {
     let currentLayout = this.keyboard.options.layoutName;
@@ -76,7 +77,6 @@ export class KeyboardComponent implements OnInit {
     } else if (button === "{fada}") {
       if (currentLayout !== "fada") shiftToggle = "fada";
     } 
-
     this.keyboard.setOptions({
       layoutName: shiftToggle
     });

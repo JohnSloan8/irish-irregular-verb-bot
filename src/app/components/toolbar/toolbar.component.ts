@@ -8,14 +8,13 @@ import { Router } from '@angular/router';
 })
 export class ToolbarComponent implements OnInit {
 
-  title = 'Briathar Neamhrialta Chatbot';
+  title = 'An Bat Mírialta';
   constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   navigateHome(): void {
-    console.log('going home')
     this.router.navigate([''])
   }
 

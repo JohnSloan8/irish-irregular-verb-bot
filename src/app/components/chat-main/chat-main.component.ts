@@ -25,12 +25,12 @@ export class ChatMainComponent implements OnInit {
   }
 
   addMsg(msg:Message):void {
-    console.log('msg in ChatMain:', msg)
+    //console.log('msg in ChatMain:', msg)
     this.messages.push(msg)
-    //this.messageService.postMessage(msg).subscribe((m:any) => {
-      //this.messages = m
-      //console.log('m:', m)
-    //});
+    this.messageService.postMessage(msg).subscribe((m:any) => {
+      this.messages.push(m)
+      console.log('m:', m)
+    });
   }
 
   // SCROLL TO BOTTOM AUTOMATICALLY

@@ -16,7 +16,7 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.message.user_id === "627e4a7d6fa530de58310a6d") {
+    if (this.message.user_id !== "627e4a7d6fa530de58310a6d") {
       this.messageClass = "talk-bubble tri-right right-top"
     }
   }
