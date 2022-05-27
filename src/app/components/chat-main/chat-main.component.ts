@@ -1,6 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../interfaces/message'
+import { DisplayBubble } from '../../interfaces/displayBubble'
+import { TaskStateService } from '../../services/task-state.service';
+import { ChatLogicService } from '../../services/chat-logic.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -10,8 +13,13 @@ import { Message } from '../../interfaces/message'
 export class ChatMainComponent implements OnInit {
 
   messages:Message[] = []
+  displayBubbles:DisplayBubble[] = []
 
-  constructor(public messageService:MessageService){}
+  constructor(
+    private messageService:MessageService,
+    private taskStateService: TaskStateService,
+    public chatLogicService: ChatLogicService
+  ){}
 
   ngOnInit(): void {
     this.scrollToBottom();
@@ -19,18 +27,17 @@ export class ChatMainComponent implements OnInit {
   }
   
   retrieveAllMessages():void {
-    this.messageService.getMessages().subscribe((m:any) => {
-      this.messages = m
+    this.messageService.getMessages().subscribe((m:Message[]) => {
+      this.messageService.messages = m
+      if (m.length > 0) {
+        this.messageService.mostRecentMessage = m[m.length-1]
+      }
+      this.chatLogicService.populateDisplayBubbles(m)
     });
   }
 
-  addMsg(msg:Message):void {
-    //console.log('msg in ChatMain:', msg)
-    this.messages.push(msg)
-    this.messageService.postMessage(msg).subscribe((m:any) => {
-      this.messages.push(m)
-      console.log('m:', m)
-    });
+  addAnswer(answer:string):void {
+    this.chatLogicService.submitAnswer(answer)
   }
 
   // SCROLL TO BOTTOM AUTOMATICALLY

@@ -1,8 +1,8 @@
 <div class="chat-main-outer-div">
   <div #chatWindow class="chat-window">
-    <div *ngFor="let m of messages">
-      <app-message [message]="m"></app-message>
+    <div *ngFor="let dB of chatLogicService.displayBubbles">
+      <app-message [displayBubble]="dB"></app-message>
     </div>
   </div>
-  <app-keyboard (onAddMessage)="addMsg($event)"></app-keyboard>
+  <app-keyboard (onAddMessage)="addAnswer($event)"></app-keyboard>
 </div>

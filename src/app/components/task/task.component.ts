@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskStateService } from '../../services/task-state.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,18 +9,21 @@ import { Router } from '@angular/router';
 })
 export class TaskComponent implements OnInit {
 
-  taskTypes = ['briathar a roghnú', 'go léir briathar', 'randamach']
+  taskTypes = ['briathar a roghnú', 'go léir briathar']
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private taskStateService: TaskStateService
+  ) { }
 
   ngOnInit(): void {
   }
 
   chooseTask(t: string): void {
-    console.log('chooseTask:', t)
     if ( t === "briathar a roghnú" ) {
       this.router.navigate(['/verbs'])
     } else {
+      this.taskStateService.addVerb('all')
       this.router.navigate(['/tenses'])
     }
   }

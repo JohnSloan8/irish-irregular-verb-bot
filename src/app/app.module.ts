@@ -16,6 +16,7 @@ import { ChatMainComponent } from './components/chat-main/chat-main.component';
 import { MessageComponent } from './components/chat-main/message/message.component';
 import { KeyboardComponent } from './components/chat-main/keyboard/keyboard.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { FormComponent } from './components/form/form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     ChatMainComponent,
     MessageComponent,
     KeyboardComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

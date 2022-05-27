@@ -2,7 +2,9 @@ import { Component, OnInit, ViewEncapsulation, Output, EventEmitter } from '@ang
 import Keyboard from "simple-keyboard";
 import { keyboardOptions } from './keyboard.options'
 import { MessageService } from '../../../services/message.service';
+import { TaskStateService } from '../../../services/task-state.service';
 import { Message } from '../../../interfaces/message'
+import Task from "../../../interfaces/task";
 
 @Component({
   selector: 'app-keyboard',
@@ -13,14 +15,18 @@ import { Message } from '../../../interfaces/message'
 })
 export class KeyboardComponent implements OnInit {
 
-  @Output() onAddMessage: EventEmitter<Message> = new EventEmitter()
+  @Output() onAddMessage: EventEmitter<string> = new EventEmitter()
 
-  msg:Message;
-
-  constructor(private messageService:MessageService){}
+  constructor(
+    private messageService:MessageService,
+    private taskStateService: TaskStateService
+  ){}
 
   value = "";
   keyboard: Keyboard;
+  msg:Message;
+  taskHint:string = "nothing yet"
+  task:Task;
 
   ngAfterViewInit() {
     this.keyboard = new Keyboard({
@@ -49,17 +55,25 @@ export class KeyboardComponent implements OnInit {
     } 
   }
 
+  generateQuestionNumber = () => {
+    return Math.floor(Math.random()*10)
+  }
+
   addMessage = () => {
-    console.log('msg:', this.value)
-    const msg = {
-      text: this.value,
-      user_id: '627e4a9f6fa530de58310a6d',
-      chat_id: '627e4e836fa530de58310a81'
-    }
-    //console.log('newMessage:', msg)
+    //console.log('msg:', this.value)
+    //const msg = {
+      //text: this.value,
+      //user_id: this.taskStateService.getID("user"),
+      //chat_id: this.taskStateService.getID("chat"),
+      //verb: this.task.verb,
+      //tense: this.task.tense,
+      //form: this.task.form,
+      //question_no: this.generateQuestionNumber()
+    //}
+    ////console.log('newMessage:', msg)
+    this.onAddMessage.emit(this.value)
     this.value = "";
     this.keyboard.setInput(""); // need to delete this too to clear everything.
-    this.onAddMessage.emit(msg)
   }
 
   //onInputChange = (event: any) => {
@@ -83,8 +97,9 @@ export class KeyboardComponent implements OnInit {
 
   };
 
-
   ngOnInit(): void {
+    this.task = this.taskStateService.getTask();
+    this.taskHint = this.task.verb + ", " + this.task.tense + ", " + this.task.form;
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TaskStateService } from '../../services/task-state.service';
 
 @Component({
   selector: 'app-tenses',
@@ -8,16 +9,19 @@ import { Router } from '@angular/router';
 })
 export class TensesComponent implements OnInit {
 
-  tenses = ["aimsir chaite", "aimsir láithreach", "aimsir fháistineach", "modh coinníollach", "randamach"]
+  tenses = ["aimsir chaite", "aimsir láithreach", "aimsir fháistineach", "modh coinníollach", "go léir aimsir"]
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private taskStateService: TaskStateService
+  ) { }
 
   ngOnInit(): void {
   }
 
   chooseTense(a: string): void {
-    console.log('chooseTense:', a)
-    this.router.navigate(['/chat'])
+    this.taskStateService.addTense(a)
+    this.router.navigate(['/form'])
   }
 
 }

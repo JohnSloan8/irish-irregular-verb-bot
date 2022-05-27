@@ -17,7 +17,7 @@ export class VerbsComponent implements OnInit {
 
   chooseVerb(v: string): void {
     console.log('chooseVerb:', v)
-    this.router.navigate(['/chat'])
+    this.router.navigate(['/tenses'])
   }
 
 }
