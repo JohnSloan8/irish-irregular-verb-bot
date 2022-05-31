@@ -1,5 +1,5 @@
-export function getVerbScripts(verb:string, tense:string, form:string):any {
-  return verbScripts[verb][tense][form]
+export function getVerbScripts():any {
+  return verbScripts
 }
 
 const verbScripts:any = {

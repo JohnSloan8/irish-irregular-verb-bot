@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskStateService } from '../../services/task-state.service';
+import { ChatService } from '../../services/chat.service';
 import { Router } from '@angular/router';
+import { getFormList } from '../../../scripts/main';
 
 @Component({
   selector: 'app-form',
@@ -9,20 +11,26 @@ import { Router } from '@angular/router';
 })
 export class FormComponent implements OnInit {
 
-  formTypes = ['questions', 'ní', 'briathar saor', 'ceisteach', 'spleach', 'extra questions', 'go léir']
+  forms:string[]
 
   constructor(
     private router: Router,
-    private taskStateService: TaskStateService
+    private taskStateService: TaskStateService,
+    private chatService: ChatService
   ) { }
 
   ngOnInit(): void {
+    let task = this.taskStateService.getTask()
+    this.forms = getFormList(task.verb, task.tense)
   }
 
   chooseForm(f: string): void {
     this.taskStateService.addForm(f)
-    console.log('this.task:', this.taskStateService.getTask())
-    this.router.navigate(['/chat'])
+    this.chatService.createChat().subscribe((c:any) => {
+      console.log('c', c) 
+      this.taskStateService.updateChatID(c)
+      this.router.navigate(['/chat'])
+    })
   }
 
 }

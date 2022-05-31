@@ -9,7 +9,8 @@ export class TaskStateService {
   private task:Task = {
     verb: 'abair',
     tense: 'aimsir láithreach',
-    form: 'questions'
+    form: 'questions',
+    notCompleted: []
   };
 
   private userId:string = '627e4a9f6fa530de58310a6e'
@@ -30,20 +31,32 @@ export class TaskStateService {
     }
   }
 
+  updateChatID(idVal:string):void {
+    this.chatId = idVal
+  }
+
   getTask():Task {
     return this.task
   }
 
   addVerb(verb:string):void {
     this.task.verb = verb
+    console.log('adding verb:', verb)
   }
 
   addTense(tense:string):void {
     this.task.tense = tense
+    console.log('adding tense:', tense)
   }
 
   addForm(form:string):void {
     this.task.form = form
+    console.log('adding form:', form)
+  }
+
+  removeFromNotCompleted(index:number) {
+    this.task.notCompleted.splice(index, 1)
+    console.log('notCompleted:' , this.task.notCompleted)
   }
 
 }

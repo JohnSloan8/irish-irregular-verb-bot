@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TaskStateService } from '../../services/task-state.service';
+import { getTenseList } from '../../../scripts/main';
 
 @Component({
   selector: 'app-tenses',
@@ -9,7 +10,7 @@ import { TaskStateService } from '../../services/task-state.service';
 })
 export class TensesComponent implements OnInit {
 
-  tenses = ["aimsir chaite", "aimsir láithreach", "aimsir fháistineach", "modh coinníollach", "go léir aimsir"]
+  tenses: string[] 
 
   constructor(
     private router: Router,
@@ -17,6 +18,7 @@ export class TensesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.tenses = getTenseList(this.taskStateService.getTask().verb) 
   }
 
   chooseTense(a: string): void {

@@ -43,8 +43,7 @@ export class MessageService {
   }
   
   updateLastMessage(msg:Message):void {
-    console.log('in updateLastMessage')
-    console.log('in updateLastMessage:', msg)
+    //console.log('in updateLastMessage:', msg)
     let updatedMsg = this.http.post<Message>(this.updateUrl, {
       msg: msg,
     })

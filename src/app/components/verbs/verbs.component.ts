@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TaskStateService } from '../../services/task-state.service';
+import { getVerbList } from '../../../scripts/main';
 
 @Component({
   selector: 'app-verbs',
@@ -8,15 +10,20 @@ import { Router } from '@angular/router';
 })
 export class VerbsComponent implements OnInit {
 
-  irrVerbs = ['abair', 'beir', 'bí', 'clois', 'déan', 'faigh', 'feic', 'ith', 'tabhair', 'tar', 'téigh']
+  verbs: string[]
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private taskStateService: TaskStateService
+  ) { }
 
   ngOnInit(): void {
+    this.verbs = getVerbList() 
   }
 
   chooseVerb(v: string): void {
-    console.log('chooseVerb:', v)
+    this.taskStateService.addTense(v)
+
     this.router.navigate(['/tenses'])
   }
 

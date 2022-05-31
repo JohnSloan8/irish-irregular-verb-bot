@@ -17,65 +17,87 @@ export class ChatLogicService {
     public messageService:MessageService
   ) { }
 
-  task:Task;
+  //task:Task;
   displayBubbles:DisplayBubble[] = [];
   questionList:[];
   
   populateDisplayBubbles(messages:Message[]):void {
-    this.task = this.taskStateService.getTask()
-    this.questionList = getQuestionList(this.task)
-    console.log('this.questionList', this.questionList)
+    this.questionList = getQuestionList(this.taskStateService.getTask())
+    //console.log('this.questionList', this.questionList)
     this.displayBubbles.push({
       learner: false,
-      text: this.task.verb + ", " + this.task.tense + ", " + this.task.form
+      text: "dia duit"
     })
-    console.log('messages:', messages)
-    messages.forEach((m, i) => {
-      console.log('m', m)
-      this.displayBubbles.push({
-        learner: false,
-        text: this.questionList[m.question_no]["question"]
-      })
-      if (m.text !== undefined) {
-        this.displayBubbles.push({
-          learner: true,
-          text: m.text
-        })
-      }
-      if (m.correct !== undefined) {
-        let botMessage = "go hiontach"
-        if (!m.correct) {
-          botMessage = "mícheart"
-        }
+    //console.log('messages:', messages)
+    if (messages.length === 0) {
+      this.createNewMessage(true)
+    } else {
+      messages.forEach((m, i) => {
         this.displayBubbles.push({
           learner: false,
-          text: botMessage
+          text: this.questionList[m.question_no]["question"]
         })
-        if ( i === messages.length-1 ) {
-          this.createNewMessage(m.correct)
-        }      
-      }
-    })
+        if (m.text !== undefined) {
+          this.displayBubbles.push({
+            learner: true,
+            text: m.text
+          })
+        }
+        if (m.correct !== undefined) {
+          let botMessage = "go hiontach"
+          if (!m.correct) {
+            botMessage = "mícheart"
+          }
+          this.displayBubbles.push({
+            learner: false,
+            text: botMessage
+          })
+          if ( i === messages.length-1 ) {
+            this.createNewMessage(m.correct)
+          }      
+        }
+      })
+    }
   }
 
   createNewMessage(lastCorrect:boolean):void {
-    let questionNumber = this.messageService.mostRecentMessage.question_no
-    if (lastCorrect) {
-      questionNumber = Math.floor(Math.random() * 10);
+    let questionNumber;
+    if (this.taskStateService.getTask().notCompleted.length !== 0) {
+      if (!lastCorrect) {
+        questionNumber = this.messageService.mostRecentMessage.question_no
+      } else {
+        questionNumber = this.generateNewQuestionNumber()
+      }
+    } else {
+      questionNumber = -1
     }
     let newMsg:Message = {
       user_id: this.taskStateService.getID("user"),
       chat_id: this.taskStateService.getID("chat"),
-      verb: this.task.verb,
-      tense: this.task.tense,
-      form: this.task.form,
+      verb: this.taskStateService.getTask().verb,
+      tense: this.taskStateService.getTask().tense,
+      form: this.taskStateService.getTask().form,
       question_no: questionNumber
     }
-    this.messageService.createNewMessage(newMsg)
+
+    let message = "completed"
+    if ( questionNumber !== -1 ) {
+      message = this.questionList[questionNumber]["question"]
+      this.messageService.createNewMessage(newMsg)
+    }
     this.displayBubbles.push({
       learner: false,
-      text: this.questionList[questionNumber]["question"]
+      text: message
     })
+  }
+
+  generateNewQuestionNumber():number {
+    let randomNumber = Math.floor(Math.random() * this.taskStateService.getTask().notCompleted.length)
+    let newQuestionNumber = this.taskStateService.getTask().notCompleted[randomNumber]
+    this.taskStateService.removeFromNotCompleted(randomNumber)
+    console.log('randomNumber:', newQuestionNumber)
+    console.log('notCompleted:', this.taskStateService.getTask())
+    return newQuestionNumber
   }
 
   submitAnswer(answerText:string):void {
