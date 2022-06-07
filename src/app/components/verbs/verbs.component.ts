@@ -22,7 +22,7 @@ export class VerbsComponent implements OnInit {
   }
 
   chooseVerb(v: string): void {
-    this.taskStateService.addTense(v)
+    this.taskStateService.addVerb(v)
 
     this.router.navigate(['/tenses'])
   }
