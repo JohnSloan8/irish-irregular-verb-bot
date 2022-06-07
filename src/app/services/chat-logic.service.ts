@@ -22,8 +22,9 @@ export class ChatLogicService {
   questionList:[];
   
   populateDisplayBubbles(messages:Message[]):void {
+    this.displayBubbles = []; //reset
     this.questionList = getQuestionList(this.taskStateService.getTask())
-    //console.log('this.questionList', this.questionList)
+    this.fillNotCompletedArray()
     this.displayBubbles.push({
       learner: false,
       text: "dia duit"
@@ -60,9 +61,19 @@ export class ChatLogicService {
     }
   }
 
+  fillNotCompletedArray():void {
+    let tempNotCompleted = [...Array(this.questionList.length).keys()]
+    this.messageService.messages.forEach( m => {
+      tempNotCompleted = tempNotCompleted.filter(n => { return n !== m.question_no} )
+    } )
+    this.taskStateService.addNotCompleted(tempNotCompleted)
+  }
+
   createNewMessage(lastCorrect:boolean):void {
     let questionNumber;
-    if (this.taskStateService.getTask().notCompleted.length !== 0) {
+    if (this.messageService.mostRecentMessage === undefined ) { // first question
+      questionNumber = this.generateNewQuestionNumber()
+    } else if (this.taskStateService.getTask().notCompleted.length !== 0) {
       if (!lastCorrect) {
         questionNumber = this.messageService.mostRecentMessage.question_no
       } else {
@@ -81,6 +92,7 @@ export class ChatLogicService {
     }
 
     let message = "completed"
+    console.log('questionNumber:', questionNumber)
     if ( questionNumber !== -1 ) {
       message = this.questionList[questionNumber]["question"]
       this.messageService.createNewMessage(newMsg)

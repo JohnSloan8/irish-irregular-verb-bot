@@ -28,6 +28,7 @@ export class ChatMainComponent implements OnInit {
   
   retrieveAllMessages():void {
     this.messageService.getMessages().subscribe((m:Message[]) => {
+      console.log('m', m)
       this.messageService.messages = m
       if (m.length > 0) {
         this.messageService.mostRecentMessage = m[m.length-1]

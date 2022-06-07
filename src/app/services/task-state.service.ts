@@ -13,17 +13,16 @@ export class TaskStateService {
     notCompleted: []
   };
 
-  private userId:string = '627e4a9f6fa530de58310a6e'
-  private botId:string = '627e4a7d6fa530de58310a6d'
-  private chatId:string = '627e4e836fa530de58310a81'
+  private userId:string = '627e4a9f6fa530de58310a6e';
+  private chatId:string = '629f2d73e2bc80eb99aa889e';
 
   constructor() { }
 
   getID(idName:string):string {
     if (idName === "user") {
       return this.userId
-    } else if (idName === "bot") {
-      return this.botId
+    //} else if (idName === "bot") {
+      //return this.botId
     } else if (idName === "chat") {
       return this.chatId
     } else {
@@ -54,9 +53,14 @@ export class TaskStateService {
     console.log('adding form:', form)
   }
 
+  addNotCompleted(qL:number[]):void {
+    this.task.notCompleted = qL
+    console.log('add notCmpleted:', this.task.notCompleted)
+  }
+
   removeFromNotCompleted(index:number) {
     this.task.notCompleted.splice(index, 1)
-    console.log('notCompleted:' , this.task.notCompleted)
+    console.log('after removal notCompleted:' , this.task.notCompleted)
   }
 
 }
