@@ -22,7 +22,6 @@ export class MessageService {
   mostRecentMessage:Message;
 
   getMessages(/*task:Task*/) {
-    console.log('getting messages')
     let httpParams = new HttpParams()
       //.append("task", JSON.stringify(task))
       .append("chat_id", this.taskStateService.getID("chat"))

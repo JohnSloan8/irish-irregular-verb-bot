@@ -14,7 +14,7 @@ export class TaskStateService {
   };
 
   private userId:string = '627e4a9f6fa530de58310a6e';
-  private chatId:string = '629f2d73e2bc80eb99aa889e';
+  private chatId:string;
 
   constructor() { }
 

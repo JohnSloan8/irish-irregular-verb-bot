@@ -4,6 +4,7 @@ import { Message } from '../../interfaces/message'
 import { DisplayBubble } from '../../interfaces/displayBubble'
 import { TaskStateService } from '../../services/task-state.service';
 import { ChatLogicService } from '../../services/chat-logic.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -18,12 +19,22 @@ export class ChatMainComponent implements OnInit {
   constructor(
     private messageService:MessageService,
     private taskStateService: TaskStateService,
+    private chatService: ChatService,
     public chatLogicService: ChatLogicService
   ){}
 
   ngOnInit(): void {
     this.scrollToBottom();
-    this.retrieveAllMessages();
+    let chatID = this.taskStateService.getID('chat')
+    console.log('chatID:', chatID)
+    if (chatID !== undefined) {
+      this.retrieveAllMessages();
+    } else {
+      this.chatService.createChat().subscribe((c:any) => {
+        this.taskStateService.updateChatID(c)
+        this.retrieveAllMessages()
+      })
+    }
   }
   
   retrieveAllMessages():void {

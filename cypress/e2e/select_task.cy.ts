@@ -1,0 +1,16 @@
+describe('select task', () => {
+  it('selects a task from the options available', () => {
+    cy.visit('http://localhost:4200/')
+    cy.contains('cleachtadh a thosú').click()
+    cy.url().should('include', '/task')
+    cy.contains('briathar a roghnú').click()
+    cy.url().should('include', '/verbs')
+    cy.contains('abair').click()
+    cy.url().should('include', '/tenses')
+    cy.contains('aimsir láithreach').click()
+    cy.url().should('include', '/form')
+    cy.contains('questions').click()
+    cy.url().should('include', '/chat')
+    cy.contains('dia duit')
+  })
+})
