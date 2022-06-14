@@ -1,5 +1,5 @@
 export interface Message {
-  _id?: string
+  _id?: string;
   user_id: string;
   chat_id: string;
   verb: string;
@@ -8,6 +8,7 @@ export interface Message {
   question_no: number;
   text?: string;
   correct?: boolean;
-  errorType?: number;
+  errorType?: string;
+  feedback?: string;
   timeTaken?: number;
 }
