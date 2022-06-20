@@ -1,11 +1,7 @@
 <div class="choices-div">
   <h2 class="small-title">Form a roghnú</h2>
   <div class="button-row" *ngFor="let f of forms">
-    <button 
-      mat-raised-button 
-      color="primary"
-      (click)="chooseForm(f)"
-      >
+    <button mat-raised-button color="primary" (click)="chooseForm(f)">
       {{ f }}
     </button>
   </div>

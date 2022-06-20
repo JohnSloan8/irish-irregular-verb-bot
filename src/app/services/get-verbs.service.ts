@@ -45,7 +45,7 @@ export class GetVerbsService {
     let isIt: boolean = false;
     if (this.checkConj(m, m.verb, m.tense, m.form)) {
       m.feedback =
-        "good tense, and good form, but that's some awful conjugating'!";
+        "good tense, and good form, but that's not the right conjugation'!";
     } else {
       let formOutput = this.checkForm(m, m.verb, m.tense);
       if (formOutput[0]) {
@@ -57,7 +57,7 @@ export class GetVerbsService {
         } else {
           let verbOutput = this.checkVerb(m);
           if (verbOutput[0])
-            m.feedback = `ah now come on! That's the wrong verb entirely. You used '${verbOutput[1]}' when you should have used '${verbOutput[2]}'`;
+            m.feedback = `ah now come on, that's the wrong verb entirely. You used '${verbOutput[1]}' when you should have used '${verbOutput[2]}'`;
         }
       }
     }

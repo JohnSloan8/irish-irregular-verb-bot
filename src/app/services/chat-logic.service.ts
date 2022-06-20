@@ -124,44 +124,78 @@ export class ChatLogicService {
       learner: true,
       text: answerText,
     });
-    this.messageService.mostRecentMessage.text = answerText;
-    let correctAnswer =
-      this.questionList[this.messageService.mostRecentMessage.question_no][
-        'answer'
-      ];
-    if (answerText === correctAnswer) {
-      this.messageService.mostRecentMessage.correct = true;
-      this.messageService.mostRecentMessage.feedback = 'go hiontach';
-      setTimeout(() => {
-        this.createNewMessage(true);
-      }, 2000);
+    if (answerText === 'e') {
+      this.runExample();
     } else {
-      this.messageService.mostRecentMessage.correct = false;
-      this.getVerbsService.generateIncorrectFeedback(
+      this.messageService.mostRecentMessage.text = answerText;
+      let correctAnswer =
+        this.questionList[this.messageService.mostRecentMessage.question_no][
+          'answer'
+        ];
+      if (answerText === correctAnswer) {
+        this.messageService.mostRecentMessage.correct = true;
+        this.messageService.mostRecentMessage.feedback = 'go hiontach';
+        setTimeout(() => {
+          this.createNewMessage(true);
+        }, 2000);
+      } else {
+        this.messageService.mostRecentMessage.correct = false;
+        this.getVerbsService.generateIncorrectFeedback(
+          this.messageService.mostRecentMessage
+        );
+      }
+      this.messageService.updateLastMessage(
         this.messageService.mostRecentMessage
       );
+      setTimeout(() => {
+        this.displayBubbles.push({
+          learner: false,
+          text: this.messageService.mostRecentMessage.feedback
+            ? this.messageService.mostRecentMessage.feedback
+            : "heven't the foggiest",
+        });
+        if (!this.messageService.mostRecentMessage.correct) {
+          setTimeout(() => {
+            this.displayBubbles.push({
+              learner: false,
+              text: 'try again',
+            });
+            setTimeout(() => {
+              this.createNewMessage(false);
+            }, 1500);
+          }, 2000);
+        }
+      }, 1000);
     }
-    this.messageService.updateLastMessage(
-      this.messageService.mostRecentMessage
-    );
-    setTimeout(() => {
+  }
+
+  messages: string[] = [
+    'Hi John, nice to see you again',
+    'Give me a moment and let me take a look at your An Scéalaí stories...',
+    'Ok, I see you have written 2 stories since we last met: "{STORY 1 NAME}" and "{STORY 2 NAME}", that\'s good going!',
+    'You made some great sentences there',
+    'I especially like: {SENTENCE WITH NO ERRORS AND RELATIVELY COMPLEX GRAMMATICAL CONSTRUCT}',
+    '{GRAMMATICAL CONSTRUCT} is quite difficult, so well done there!',
+    'Also, your vocabulary usage is widening too!',
+    'I see you used the {POS} {VOCAB ITEM 1} and {POS} {VOCAB ITEM 2} for the first time',
+    "It's an interesting word {VOCAB ITEM 1}",
+    'That word is used a lot in {LARA STORY X}, you should check it out',
+    'I also see that you made a couple of errors with {IRR VERB Y}',
+    'For example, you said {INCORRECT GRAMMAR EXAMPLE 1}, before correcting it.',
+    'Then you used {INCORRECT GRAMMAR EXAMPLE 2}',
+    "That's a really common error that almost everyone makes",
+    'It might help if we practice {VERB/TENSE/FORM}',
+    'Shall we start?',
+  ];
+  runExample(): void {
+    let count = 0;
+    let i = setInterval(() => {
       this.displayBubbles.push({
         learner: false,
-        text: this.messageService.mostRecentMessage.feedback
-          ? this.messageService.mostRecentMessage.feedback
-          : "heven't the foggiest",
+        text: this.messages[count],
       });
-      if (!this.messageService.mostRecentMessage.correct) {
-        setTimeout(() => {
-          this.displayBubbles.push({
-            learner: false,
-            text: 'try again',
-          });
-          setTimeout(() => {
-            this.createNewMessage(false);
-          }, 1500);
-        }, 2000);
-      }
-    }, 1000);
+      count += 1;
+      count >= this.messages.length ? clearInterval(i) : null;
+    }, 4000);
   }
 }

@@ -1,5 +1,8 @@
-<div [ngClass]="displayBubbleClass">
+<div
+  [ngClass]="displayBubbleClass"
+  [ngStyle]="{ 'background-color': backgroundColor }"
+>
   <div class="talktext">
-    <p>{{displayBubble.text}}</p>
+    <p>{{ textForThisMessage }}</p>
   </div>
 </div>
