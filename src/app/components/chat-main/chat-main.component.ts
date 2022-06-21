@@ -11,7 +11,7 @@ import { DisplayBubble } from '../../interfaces/displayBubble';
 import { TaskStateService } from '../../services/task-state.service';
 import { ChatLogicService } from '../../services/chat-logic.service';
 import { ChatService } from '../../services/chat.service';
-import { GetStoriesService } from '../../services/get-stories.service';
+import { StoriesService } from '../../services/stories.service';
 
 @Component({
   selector: 'app-chat-main',
@@ -26,14 +26,13 @@ export class ChatMainComponent implements OnInit {
     private messageService: MessageService,
     private taskStateService: TaskStateService,
     private chatService: ChatService,
-    private getStoriesService: GetStoriesService,
+    private storiesService: StoriesService,
     public chatLogicService: ChatLogicService
   ) {}
 
   ngOnInit(): void {
     this.scrollToBottom();
     let chatID = this.taskStateService.getID('chat');
-    console.log('chatID:', chatID);
     if (chatID !== undefined) {
       this.retrieveAllMessages();
     } else {
@@ -41,15 +40,12 @@ export class ChatMainComponent implements OnInit {
         this.taskStateService.updateChatID(c);
         this.retrieveAllMessages();
       });
-      this.getStoriesService.getStories().subscribe((s: any) => {
-        console.log('s:', s);
-      });
+      this.storiesService.getStories();
     }
   }
 
   retrieveAllMessages(): void {
     this.messageService.getMessages().subscribe((m: Message[]) => {
-      console.log('m', m);
       this.messageService.messages = m;
       if (m.length > 0) {
         this.messageService.mostRecentMessage = m[m.length - 1];

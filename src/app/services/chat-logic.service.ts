@@ -96,7 +96,6 @@ export class ChatLogicService {
     };
 
     let message = 'completed';
-    console.log('questionNumber:', questionNumber);
     if (questionNumber !== -1) {
       message = this.questionList[questionNumber]['question'];
       this.messageService.createNewMessage(newMsg);
@@ -114,8 +113,6 @@ export class ChatLogicService {
     let newQuestionNumber =
       this.taskStateService.getTask().notCompleted[randomNumber];
     this.taskStateService.removeFromNotCompleted(randomNumber);
-    console.log('randomNumber:', newQuestionNumber);
-    console.log('notCompleted:', this.taskStateService.getTask());
     return newQuestionNumber;
   }
 

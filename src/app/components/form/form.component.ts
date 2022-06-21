@@ -27,7 +27,6 @@ export class FormComponent implements OnInit {
   chooseForm(f: string): void {
     this.taskStateService.addForm(f);
     this.chatService.createChat().subscribe((c: any) => {
-      console.log('c', c);
       this.taskStateService.updateChatID(c);
       this.router.navigate(['/chat']);
     });

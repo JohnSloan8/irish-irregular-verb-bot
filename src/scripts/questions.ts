@@ -2,6 +2,38 @@ export function getVerbScripts(): any {
   return verbScripts;
 }
 
+export function generateVerbObject(): any {
+  let verbObject: any = {};
+  let allVerbs: string[] = [];
+  let blankVerbObject: any = {};
+  Object.keys(verbScripts).forEach((verb) => {
+    verbObject[verb] = {};
+    Object.keys(verbScripts[verb]).forEach((tense) => {
+      if (tense !== 'quiz') {
+        verbObject[verb][tense] = {};
+        Object.keys(verbScripts[verb][tense]).forEach((form) => {
+          if (form !== 'extra questions') {
+            verbObject[verb][tense][form] = [];
+            verbScripts[verb][tense][form].forEach((questionData: any) => {
+              if (
+                !verbObject[verb][tense][form].includes(
+                  questionData.answer.toLowerCase()
+                )
+              ) {
+                verbObject[verb][tense][form].push(
+                  questionData.answer.toLowerCase()
+                );
+                allVerbs.push(questionData.answer.toLowerCase());
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+  return [allVerbs, verbObject];
+}
+
 const verbScripts: any = {
   //ABAIR
   abair: {
